@@ -27,6 +27,7 @@ export default class Details extends Component {
                             </div>
                             {/* end of title */}
                             {/* product info */}
+                            {/* product image */}
                             <div className="row">
                                 <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
                                     <div className="col-10 mx-auto text-center text-slanted text-blue my-5">
