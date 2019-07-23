@@ -7,8 +7,11 @@ export default class ProductProvider extends Component {
         products: [],
         detailProduct: detailProduct,
         cart: [],
-        modalOpen: true,
-        modalProduct: detailProduct
+        modalOpen: false,
+        modalProduct: detailProduct,
+        cartSubTotal: 0, //cart will be 0 at first
+        cartTax: 0,
+        cartTotal: 0
     };
     componentDidMount() {
         this.setProducts();
@@ -25,20 +28,25 @@ export default class ProductProvider extends Component {
         });
     };
     getItem = id => {
+        //it is going to be expecting an id to return products of the item id
+        //also an utility function
         const product = this.state.products.find(item => item.id === id);
         return product;
     };
     handleDetail = id => {
+        //passing this to product.js
+        //calling this product whenever we click the image to go to details page
         const product = this.getItem(id);
         this.setState(() => {
             return { detailProduct: product };
         });
     };
     addToCart = id => {
-        let tempProducts = [...this.state.products];
-        const index = tempProducts.indexOf(this.getItem(id)),
-            product = tempProducts[index];
-        product.inCart = true;
+        //create a temp products
+        let tempProducts = [...this.state.products]; //this array holds all my products in the carts
+        const index = tempProducts.indexOf(this.getItem(id)), //grtting id of all the products
+            product = tempProducts[index]; //temp products of the array
+        product.inCart = true; //now we have actual product in the cart and change the count fo that product
         product.count = 1;
         const price = product.price;
         product.total = price;
@@ -54,7 +62,21 @@ export default class ProductProvider extends Component {
             }
         );
     };
+    //to increase and decrease no os item of same category in the cart
+    increment = id => {
+        console.log("this is incremet method");
+    };
+    decrement = id => {
+        console.log("this is decrement method");
+    };
+    removeItem = id => {
+        console.log("item removed");
+    };
+    clearCart = () => {
+        console.log("cart is clear");
+    };
     openModal = id => {
+        //retrieve the product
         const product = this.getItem(id);
         this.setState(() => {
             return { modalProduct: product, modalOpen: true };
@@ -73,7 +95,11 @@ export default class ProductProvider extends Component {
                     handleDetail: this.handleDetail,
                     addToCart: this.addToCart,
                     openModal: this.openModal,
-                    closeModal: this.closeModal
+                    closeModal: this.closeModal,
+                    increment: this.increment,
+                    decrement: this.decrement,
+                    removeItem: this.removeItem,
+                    clearCart: this.clearCart
                 }}>
                 {this.props.children}
             </ProductContext.Provider>

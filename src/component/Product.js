@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import styled from "styled-components";
+// import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { ProductConsumer } from "../context";
 import PropTypes from "prop-types";
@@ -12,7 +12,9 @@ export default class Product extends Component {
             <ProductWrapper className="col-9 mx-auto col-md-6 col-lg-3 my-3">
                 <div className="card">
                     <ProductConsumer>
+                        {/* //*no other way ti pass info */}
                         {value => (
+                            // once we click on this we are gonna handledetail and one we get it we are gonna find that product through getProduct and then flip detailProduct to that product
                             <div
                                 className="img-container p-5"
                                 onClick={() => {
@@ -30,7 +32,7 @@ export default class Product extends Component {
                                     disabled={inCart ? true : false}
                                     onClick={() => {
                                         value.addToCart(id);
-                                        value.openModal(id)
+                                        value.openModal(id);
                                     }}>
                                     {inCart ? (
                                         <p
