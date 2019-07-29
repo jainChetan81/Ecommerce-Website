@@ -6,7 +6,7 @@ export default class ProductProvider extends Component {
     state = {
         products: [],
         detailProduct: detailProduct,
-        cart: [],
+        cart: storeProducts,
         modalOpen: false,
         modalProduct: detailProduct,
         cartSubTotal: 0, //cart will be 0 at first
@@ -87,6 +87,9 @@ export default class ProductProvider extends Component {
             return { modalOpen: false };
         });
     };
+    addTotals=()=>{
+
+    }
     render() {
         return (
             <ProductContext.Provider
