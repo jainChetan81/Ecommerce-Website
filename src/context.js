@@ -84,6 +84,7 @@ export default class ProductProvider extends Component {
                 //we modify car and states to set them back to default
                 //but the value sin addcart are already modified
                 this.setProducts();
+                this.addTotals();
             }
         );
     };
