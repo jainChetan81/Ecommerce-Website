@@ -6,7 +6,7 @@ export default class ProductProvider extends Component {
     state = {
         products: [],
         detailProduct: detailProduct,
-        cart: storeProducts,
+        cart: [],
         modalOpen: false,
         modalProduct: detailProduct,
         cartSubTotal: 0, //cart will be 0 at first
@@ -58,7 +58,8 @@ export default class ProductProvider extends Component {
                 };
             },
             () => {
-                console.log(this.state);
+                //because the best time to loop all the cart items whenever item is being added to the cart
+                this.addTotals();
             }
         );
     };
@@ -73,7 +74,18 @@ export default class ProductProvider extends Component {
         console.log("item removed");
     };
     clearCart = () => {
-        console.log("cart is clear");
+        this.setState(
+            () => {
+                return {
+                    cart: []
+                };
+            },
+            () => {
+                //we modify car and states to set them back to default
+                //but the value sin addcart are already modified
+                this.setProducts();
+            }
+        );
     };
     openModal = id => {
         //retrieve the product
@@ -87,9 +99,22 @@ export default class ProductProvider extends Component {
             return { modalOpen: false };
         });
     };
-    addTotals=()=>{
-
-    }
+    addTotals = () => {
+        let subtotal = 0;
+        this.state.cart.map(item => {
+            subtotal += item.total;
+        });
+        const tempTax = subtotal * 0.1;
+        const tax = parseFloat(tempTax.toFixed(2));
+        const total = subtotal + tax;
+        this.setState(() => {
+            return {
+                cartSubTotal: subtotal,
+                cartTax: tax,
+                cartTotal: total
+            };
+        });
+    };
     render() {
         return (
             <ProductContext.Provider
