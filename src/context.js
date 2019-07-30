@@ -65,13 +65,61 @@ export default class ProductProvider extends Component {
     };
     //to increase and decrease no os item of same category in the cart
     increment = id => {
-        console.log("this is incremet method");
+        let tempCart = [...this.state.cart];
+        const selectedProduct = tempCart.find(item => item.id === id),
+            index = tempCart.indexOf(selectedProduct),
+            product = tempCart[index];
+        product.count = product.count + 1;
+        product.total = product.count * product.price;
+        this.setState(
+            () => {
+                return {
+                    cart: [...tempCart]
+                };
+            },
+            () => {
+                this.addTotals();
+            }
+        );
     };
     decrement = id => {
-        console.log("this is decrement method");
+        let tempCart = [...this.state.cart];
+        const selectedProduct = tempCart.find(item => item.id === id),
+            index = tempCart.indexOf(selectedProduct),
+            product = tempCart[index];
+        product.count = product.count - 1;
+        product.total = product.count * product.price;
+        this.setState(
+            () => {
+                return {
+                    cart: [...tempCart]
+                };
+            },
+            () => {
+                this.addTotals();
+            }
+        );
     };
     removeItem = id => {
-        console.log("item removed");
+        let tempProducts = [...this.state.products];
+        let tempCart = [...this.state.cart];
+        tempCart = tempCart.filter(item => item.id !== id); //we are looking for item that doesnot match id which will be removed from the cart
+        const index = tempProducts.indexOf(this.getItem(id));
+        let removedProduct = tempProducts[index];
+        removedProduct.inCart = false;
+        removedProduct.count = 0;
+        removedProduct.total = 0;
+        this.setState(
+            () => {
+                return {
+                    cart: [...tempCart],
+                    products: [...tempProducts]
+                };
+            },
+            () => {
+                this.addTotals();
+            }
+        );
     };
     clearCart = () => {
         this.setState(
@@ -103,7 +151,7 @@ export default class ProductProvider extends Component {
     addTotals = () => {
         let subtotal = 0;
         this.state.cart.map(item => {
-            subtotal += item.total;
+            return (subtotal += item.total);
         });
         const tempTax = subtotal * 0.1;
         const tax = parseFloat(tempTax.toFixed(2));
