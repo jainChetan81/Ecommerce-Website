@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ProductConsumer } from "../../context";
-// import CartList from "./CartList";
+import CartItem from "./CartItem";
 import CartTotals from "./CartTotals";
 import CartColumns from "./CartColumns";
 import Title from "../Title";
@@ -19,6 +19,17 @@ export default class Cart extends Component {
                                     <Title name="you" title="cart" />
                                     <CartColumns />
                                     {/* <CartList value={value} /> */}
+                                    <div className="container-fluid">
+                                        {cart.map(item => {
+                                            return (
+                                                <CartItem
+                                                    key={item.id}
+                                                    item={item}
+                                                    value={value}
+                                                />
+                                            );
+                                        })}
+                                    </div>
                                     <CartTotals value={value} />
                                 </React.Fragment>
                             );
